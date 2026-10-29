@@ -818,11 +818,12 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
     color: var(--primary);
   }
 
+  // Selected chip: same size, brand-colored outline and label (no fill),
+  // matching the outline buttons.
   &.is-active,
   &.is-active:visited {
     border-color: var(--tertiary);
-    background: var(--tertiary);
-    color: var(--secondary);
+    color: var(--tertiary);
   }
 }
 
