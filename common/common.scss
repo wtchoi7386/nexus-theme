@@ -748,9 +748,12 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
     fill: #ea80fc;
   }
 
+  // As large as the 64px header comfortably allows next to the 40px mark.
   &__name {
-    font-size: 20px;
+    font-size: 30px;
+    line-height: 1;
     font-weight: 700;
+    letter-spacing: -0.02em;
     color: var(--tertiary);
   }
 }
