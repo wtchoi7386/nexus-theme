@@ -4,3 +4,124 @@
   --font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --d-border-radius: 10px;
 }
+
+// Login page — split layout adapted from the confirmed Nexus login mockup
+// (left: light form card, right: dark promo panel). Colors are fixed
+// regardless of the site's light/dark mode, matching the approved design.
+.login-fullpage {
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  background:
+    radial-gradient(1100px 550px at 0% 0%, #eef0ff 0%, rgba(238, 240, 255, 0) 60%),
+    radial-gradient(1100px 550px at 100% 100%, #eef0ff 0%, rgba(238, 240, 255, 0) 60%),
+    #ffffff;
+}
+
+.login-body {
+  width: 100%;
+  max-width: 1040px;
+  display: flex;
+  flex-wrap: wrap;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(15, 10, 46, 0.14);
+  border: 1px solid #ececec;
+  overflow: hidden;
+}
+
+.login-left-side {
+  flex: 1 1 480px;
+  min-width: 320px;
+  box-sizing: border-box;
+  padding: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  color: #111827;
+
+  a {
+    color: #4f39f6;
+  }
+}
+
+.login-welcome-header .login-title {
+  font-size: 27px;
+  font-weight: 700;
+  margin: 0;
+  color: #0a0a0a;
+}
+
+#login-form #credentials {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  .input-group input {
+    border-radius: var(--d-border-radius);
+  }
+}
+
+.login-page-cta {
+  margin-top: 4px;
+
+  &__login {
+    width: 100%;
+    border-radius: var(--d-border-radius);
+    padding: 13px 16px;
+    font-weight: 600;
+    background: #4f39f6;
+  }
+}
+
+.login-right-side {
+  flex: 1 1 380px;
+  min-width: 300px;
+  box-sizing: border-box;
+  position: relative;
+  background: linear-gradient(145deg, #1a1540 0%, #2d1f66 45%, #150f33 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(197, 182, 255, 0.35) 0%, rgba(197, 182, 255, 0) 70%);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    left: -60px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.35) 0%, rgba(124, 58, 237, 0) 70%);
+  }
+
+  #login-buttons {
+    position: relative;
+    z-index: 1;
+
+    .passkey-login-button {
+      background: #ffffff;
+      color: #111827;
+      border: none;
+      border-radius: var(--d-border-radius);
+      padding: 13px 22px;
+      font-weight: 600;
+    }
+  }
+}
