@@ -27,13 +27,17 @@ $nx-field: oklch(0.965 0 0);
 $nx-ring: oklch(0.3 0.09 277);
 $nx-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif;
 
+// No "Powered by Discourse" link anywhere on the site.
+.powered-by-discourse {
+  display: none;
+}
+
 // Jump-Up has no site header/footer on its login screen; drop Discourse's
 // and let the login page span the full viewport.
 body.login-page {
   background: oklch(0.97 0.015 277);
 
-  .d-header-wrap,
-  .powered-by-discourse {
+  .d-header-wrap {
     display: none;
   }
 
