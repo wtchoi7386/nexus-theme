@@ -25,6 +25,7 @@
   width: 100%;
   max-width: 1040px;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   background: #ffffff;
   border-radius: 20px;
@@ -61,8 +62,18 @@
   flex-direction: column;
   gap: 18px;
 
-  .input-group input {
-    border-radius: var(--d-border-radius);
+  .input-group {
+    input {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: var(--d-border-radius);
+      color: #111827;
+    }
+
+    .alt-placeholder {
+      background: #f9fafb;
+      color: #6b7280;
+    }
   }
 }
 
@@ -75,6 +86,15 @@
     padding: 13px 16px;
     font-weight: 600;
     background: #4f39f6;
+  }
+
+  &__no-account-yet {
+    color: #6b7280;
+  }
+
+  &__signup {
+    color: #4f39f6;
+    font-weight: 600;
   }
 }
 
