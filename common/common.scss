@@ -67,6 +67,10 @@
   }
 
   .login-welcome-subtitle {
+    // .login-welcome-header is a 2-column grid (core CSS); without an
+    // explicit placement this sits beside the title instead of below it.
+    grid-column: 1 / -1;
+    grid-row: 2;
     margin: 0;
     font-size: 14px;
     color: #57606f;
