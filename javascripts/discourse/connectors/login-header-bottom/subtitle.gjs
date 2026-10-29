@@ -14,7 +14,7 @@
 
   <div class="login-brand-row">
     <span class="login-brand-icon">
-      <svg viewBox="0 0 64 64" role="img" aria-label="Nexus 로고">
+      <svg viewBox="0 4 64 58" role="img" aria-label="Nexus 로고">
         <polygon points="32,58 4,46 32,38" fill="#38006b" />
         <polygon points="32,58 60,46 32,38" fill="#6a1b9a" />
         <polygon points="32,8 24,24 40,24" fill="#4a148c" />
