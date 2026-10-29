@@ -56,7 +56,7 @@ export default class BoardHeading extends Component {
   }
 
   <template>
-    <div class="nexus-board-heading">
+    <div class="nexus-board-heading {{if this.category '--category'}}">
       <div class="nexus-board-heading__title">
         <h1>{{this.title}}</h1>
         {{#if this.subtitle}}

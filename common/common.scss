@@ -792,6 +792,12 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
   }
 }
 
+// Category pages: title 10% smaller than the 30px page title.
+.nexus-board-heading.--category .nexus-board-heading__title h1 {
+  font-size: 27px;
+  line-height: 32px;
+}
+
 // 4. Category chips: rounded-full border px-3 py-1.5 text-xs medium. One
 // row that scrolls sideways, so more categories never push the list down.
 .nexus-board-chips {
