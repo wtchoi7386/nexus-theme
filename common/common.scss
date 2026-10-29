@@ -112,6 +112,17 @@
   }
 }
 
+// Core renders the email/password labels as a floating placeholder
+// (absolutely positioned inside the input, moving up on focus/value) via
+// the compiled selector `.login-fullpage .input-group label.alt-placeholder`
+// (3 classes + 1 type) and, for the focused/filled state,
+// `.login-fullpage .input-group input:focus + label.alt-placeholder` (4
+// classes + 2 types) with `background-color: var(--secondary)`. An earlier
+// version of this override skipped the `.input-group` ancestor, so it lost
+// on specificity and that background (dark here) showed through as a box
+// behind the focused label. Match the full ancestor chain so ours (loaded
+// after core) wins the tie, to pin these as plain static labels above each
+// input instead, matching the confirmed mockup.
 #login-form #credentials {
   display: flex;
   flex-direction: column;
@@ -124,38 +135,30 @@
       border-radius: var(--d-border-radius);
       color: #111827;
     }
-  }
-}
 
-// Core renders the email/password labels as a floating placeholder
-// (absolutely positioned inside the input, moving up on focus/value) via
-// `.login-fullpage label.alt-placeholder` + the focus/value-entered
-// variants, specificity (0,2,1) / (0,3,2). Match that specificity here
-// (nested under .login-fullpage, loaded after core) to pin them as plain
-// static labels above each input instead, matching the confirmed mockup.
-.login-fullpage {
-  label.alt-placeholder {
-    // The label follows the input in markup order; `.input-group` is a
-    // column flexbox, so flip it to the top visually instead of reordering
-    // the DOM.
-    order: -1;
-    position: static;
-    display: block;
-    pointer-events: auto;
-    margin-bottom: 6px;
-    color: #374151;
-    font-size: 13px;
-    font-weight: 600;
-  }
+    label.alt-placeholder {
+      // The label follows the input in markup order; `.input-group` is a
+      // column flexbox, so flip it to the top visually instead of
+      // reordering the DOM.
+      order: -1;
+      position: static;
+      display: block;
+      pointer-events: auto;
+      margin-bottom: 6px;
+      color: #374151;
+      font-size: 13px;
+      font-weight: 600;
+    }
 
-  input:focus + label.alt-placeholder,
-  input.value-entered + label.alt-placeholder {
-    position: static;
-    top: auto;
-    left: auto;
-    background: none;
-    padding: 0;
-    font-size: 13px;
+    input:focus + label.alt-placeholder,
+    input.value-entered + label.alt-placeholder {
+      position: static;
+      top: auto;
+      left: auto;
+      background: none;
+      padding: 0;
+      font-size: 13px;
+    }
   }
 }
 
