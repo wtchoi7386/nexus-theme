@@ -677,3 +677,161 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
     color: rgb(255 255 255 / 0.6);
   }
 }
+
+// Board pages — Jump-Up design items 1~4 (confirmed mockup:
+// Nexus/design/board-mockup.html). Colors come from the active Discourse
+// color scheme (jump-up light / jump-up Dim), so these rules work in both.
+
+// 2. Header: Jump-Up's h-16 header on the page background with a bottom
+// border, logo tile + wordmark (home-logo-contents connector).
+.d-header {
+  height: 64px;
+  background-color: var(--secondary);
+  box-shadow: none;
+  border-bottom: 1px solid var(--primary-low);
+}
+
+.d-header .title a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nexus-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &__tile {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: oklch(0.94 0.03 277);
+    box-shadow: inset 0 0 0 1px oklch(0.22 0.09 277 / 0.08);
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &__name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--tertiary);
+  }
+}
+
+.d-header-icons .icon .d-icon {
+  color: var(--primary-medium);
+}
+
+// 3. Board heading (discovery-list-controls-above connector): text-3xl bold
+// primary title + text-sm muted subtitle.
+.nexus-board-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 8px 0 24px;
+
+  &__title {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 36px;
+      font-weight: 700;
+      color: var(--tertiary);
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--primary-medium);
+    }
+  }
+}
+
+// 4. Category chips: rounded-full border px-3 py-1.5 text-xs medium.
+.nexus-board-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nexus-chip {
+  padding: 6px 12px;
+  border: 1px solid var(--primary-low);
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--primary-medium);
+
+  &:hover {
+    color: var(--primary);
+  }
+
+  &.is-active {
+    border-color: var(--tertiary);
+    background: var(--tertiary);
+    color: var(--secondary);
+  }
+}
+
+// The chips replace the category dropdown and the "카테고리" nav tab.
+.navigation-container {
+  .category-breadcrumb li:has(> .category-drop),
+  .nav-pills > li.nav-item_categories {
+    display: none;
+  }
+}
+
+// "+ 새 글" create button (label via site text override js.topic.create).
+#create-topic {
+  .d-icon {
+    display: none;
+  }
+
+  &::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    background: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+}
+
+// 4. Category badges as tinted pills (Jump-Up board-category-badge: h-5
+// rounded-full px-2 text-xs medium, color at 15%).
+.topic-list,
+.topic-category {
+  .badge-category__wrapper .badge-category {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    max-width: none;
+    padding: 0 8px;
+    border-radius: 9999px;
+    background: color-mix(in oklch, var(--category-badge-color) 18%, transparent);
+    line-height: 1;
+
+    &::before {
+      display: none;
+    }
+
+    .badge-category__name {
+      font-size: 12px;
+      font-weight: 500;
+      color: color-mix(in oklch, var(--category-badge-color) 80%, var(--primary));
+    }
+  }
+}
