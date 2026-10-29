@@ -58,11 +58,19 @@
   }
 }
 
-.login-welcome-header .login-title {
-  font-size: 27px;
-  font-weight: 700;
-  margin: 0;
-  color: #0a0a0a;
+.login-welcome-header {
+  .login-title {
+    font-size: 27px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #0a0a0a;
+  }
+
+  .login-welcome-subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: #57606f;
+  }
 }
 
 #login-form #credentials {
