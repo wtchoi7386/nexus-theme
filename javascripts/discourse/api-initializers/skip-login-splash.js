@@ -1,4 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
+import DiscourseURL from "discourse/lib/url";
 
 // When login_required is on, anonymous visitors normally land on the
 // "discovery.login-required" welcome card and have to click a button to
@@ -7,7 +8,7 @@ export default apiInitializer((api) => {
   api.modifyClass("route:discovery.login-required", {
     pluginId: "nexus-custom",
     beforeModel(transition) {
-      this.transitionTo("login");
+      DiscourseURL.routeTo("/login");
     },
   });
 });
