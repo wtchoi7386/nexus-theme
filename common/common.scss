@@ -58,19 +58,54 @@
   }
 }
 
+// .login-welcome-header is a 2-column CSS grid in core (for the title +
+// an optional second element like the waving-hand emoji). Everything we
+// add via the login-header-bottom outlet auto-places into row 1's second
+// column, so every row below is pinned explicitly: badge, logo+wordmark,
+// title, subtitle, in that visual order top to bottom.
 .login-welcome-header {
+  row-gap: 10px;
+
+  .login-brand-badge {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #f3f1ff;
+    color: #4f39f6;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .login-brand-row {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .login-brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0a0a0a;
+  }
+
   .login-title {
+    grid-column: 1 / -1;
+    grid-row: 3;
     font-size: 27px;
     font-weight: 700;
-    margin: 0 0 8px 0;
+    margin: 0;
     color: #0a0a0a;
   }
 
   .login-welcome-subtitle {
-    // .login-welcome-header is a 2-column grid (core CSS); without an
-    // explicit placement this sits beside the title instead of below it.
     grid-column: 1 / -1;
-    grid-row: 2;
+    grid-row: 4;
     margin: 0;
     font-size: 14px;
     color: #57606f;
@@ -89,11 +124,38 @@
       border-radius: var(--d-border-radius);
       color: #111827;
     }
+  }
+}
 
-    .alt-placeholder {
-      background: #f9fafb;
-      color: #6b7280;
-    }
+// Core renders the email/password labels as a floating placeholder
+// (absolutely positioned inside the input, moving up on focus/value) via
+// `.login-fullpage label.alt-placeholder` + the focus/value-entered
+// variants, specificity (0,2,1) / (0,3,2). Match that specificity here
+// (nested under .login-fullpage, loaded after core) to pin them as plain
+// static labels above each input instead, matching the confirmed mockup.
+.login-fullpage {
+  label.alt-placeholder {
+    // The label follows the input in markup order; `.input-group` is a
+    // column flexbox, so flip it to the top visually instead of reordering
+    // the DOM.
+    order: -1;
+    position: static;
+    display: block;
+    pointer-events: auto;
+    margin-bottom: 6px;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  input:focus + label.alt-placeholder,
+  input.value-entered + label.alt-placeholder {
+    position: static;
+    top: auto;
+    left: auto;
+    background: none;
+    padding: 0;
+    font-size: 13px;
   }
 }
 
