@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap');
-
+// System font stack site-wide, matching the confirmed mockups (Latin renders
+// in the OS UI font, Korean in Apple SD Gothic Neo / Malgun Gothic).
 :root {
-  --font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif;
+  --heading-font-family: var(--font-family);
   --d-border-radius: 10px;
 }
 
@@ -868,5 +869,16 @@ body.navigation-category {
     width: 100%;
     max-width: 920px;
     margin-inline: auto;
+  }
+}
+
+// Topic titles in lists: 15px / 500 per the board mockup (core default is
+// ~18px regular).
+.topic-list {
+  --topic-title-font-weight: 500;
+  --topic-title-font-weight--visited: 500;
+
+  .main-link a.title {
+    font-size: 15px;
   }
 }
