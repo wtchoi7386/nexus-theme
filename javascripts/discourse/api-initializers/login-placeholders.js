@@ -17,15 +17,25 @@ export default apiInitializer((api) => {
         .getElementById("login-account-password")
         ?.setAttribute("placeholder", "••••••••");
 
-      // The browser may already have queued the autofocus; undo it once it
-      // has run, unless the user has started typing.
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => {
-          if (name && document.activeElement === name && !name.value) {
-            name.blur();
-          }
-        })
-      );
+      if (!name) {
+        return;
+      }
+
+      // The browser applies `autofocus` on its own schedule, possibly after
+      // this runs. Blur any focus the field gets before the user has clicked
+      // or typed anything; stop watching once they do.
+      const stop = () => {
+        name.removeEventListener("focus", undoAutofocus);
+        document.removeEventListener("pointerdown", stop, true);
+        document.removeEventListener("keydown", stop, true);
+      };
+      const undoAutofocus = () => name.blur();
+      name.addEventListener("focus", undoAutofocus);
+      document.addEventListener("pointerdown", stop, true);
+      document.addEventListener("keydown", stop, true);
+      if (document.activeElement === name) {
+        name.blur();
+      }
     });
   });
 });
