@@ -29,7 +29,11 @@ export default class BoardHeading extends Component {
 
   get chips() {
     return this.site.categories
-      .filter((c) => !c.parent_category_id)
+      .filter(
+        (c) =>
+          !c.parent_category_id &&
+          c.id !== this.site.uncategorized_category_id
+      )
       .sort((a, b) => a.position - b.position)
       .map((c) => ({ name: c.name, url: c.url, active: c.id === this.activeId }));
   }

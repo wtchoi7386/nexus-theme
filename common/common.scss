@@ -726,8 +726,9 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
   }
 }
 
-.d-header-icons .icon .d-icon {
-  color: var(--primary-medium);
+// Core colors header icons through this variable (hover/active have their own).
+.d-header {
+  --d-header-icon-color: var(--primary-medium);
 }
 
 // 3. Board heading (discovery-list-controls-above connector): text-3xl bold
@@ -766,7 +767,8 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
   gap: 8px;
 }
 
-.nexus-chip {
+.nexus-chip,
+.nexus-chip:visited {
   padding: 6px 12px;
   border: 1px solid var(--primary-low);
   border-radius: 9999px;
@@ -779,7 +781,8 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
     color: var(--primary);
   }
 
-  &.is-active {
+  &.is-active,
+  &.is-active:visited {
     border-color: var(--tertiary);
     background: var(--tertiary);
     color: var(--secondary);
