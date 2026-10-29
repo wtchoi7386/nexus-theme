@@ -846,3 +846,15 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
     }
   }
 }
+
+// Topic list pages: cap the content column and center it in the area right
+// of the sidebar, so the list reads as a focused column instead of spanning
+// the full width (Jump-Up centers its pages at max-w-5xl).
+body.navigation-topics,
+body.navigation-category {
+  #main-outlet {
+    width: 100%;
+    max-width: 920px;
+    margin-inline: auto;
+  }
+}
