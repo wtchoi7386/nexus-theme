@@ -927,3 +927,50 @@ body.navigation-categories {
     font-size: 13px;
   }
 }
+
+// Buttons: Jump-Up's default button size (h-8 = 32px, text-sm 14px medium,
+// rounded-lg) instead of core's ~39px / 16px. Scoped to the list navigation
+// row, the topic footer and post action rows; composer/modal buttons keep
+// core sizing.
+.navigation-container,
+#topic-footer-buttons,
+.topic-footer-main-buttons,
+.post-controls {
+  .btn,
+  .select-kit .select-kit-header {
+    min-height: 32px;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    border-radius: 8px;
+  }
+
+  .btn.no-text {
+    width: 32px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .btn .d-icon {
+    font-size: 14px;
+  }
+}
+
+// Combo "+ 새 글" button keeps its joined inner corners.
+.navigation-container .d-combo-button {
+  .btn:first-child {
+    border-radius: 8px 0 0 8px;
+  }
+
+  .btn:last-child {
+    border-radius: 0 8px 8px 0;
+  }
+}
+
+// List tabs (최신/새글/인기): 15px medium like the mockup.
+.navigation-container .nav-pills > li > a {
+  min-height: 32px;
+  font-size: 15px;
+  font-weight: 500;
+}
