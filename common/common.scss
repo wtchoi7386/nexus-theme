@@ -5,79 +5,184 @@
   --d-border-radius: 10px;
 }
 
-// Login page — split layout adapted from the confirmed Nexus login mockup
-// (left: light form card, right: dark promo panel). Colors are fixed
-// regardless of the site's light/dark mode, matching the approved design.
+// Login page — reproduces the Jump-Up login screen
+// (jump-up.moasoftware.co.kr/login) per the confirmed mockup at
+// Nexus/design/login-mockup.html. Sizes are Jump-Up's Tailwind values
+// converted to px; colors are fixed regardless of the site's light/dark
+// color scheme.
 //
-// Core's own login-signup-page.scss styles .login-body/.login-left-side via
-// the compiled selector `.login-fullpage .login-body` etc. (nested under
-// `.login-fullpage, .signup-fullpage, ...`), specificity (0,2,0) — including
-// a `max-width: 800px` on .login-body and `max-width: 500px` on
-// .login-left-side. A bare `.login-body { ... }` here loses to that, so the
-// same `.login-fullpage <selector>` nesting is used below to actually win.
-.login-fullpage {
+// Core's login-signup-page.scss nests everything under
+// `.login-fullpage, .signup-fullpage, .invites-show, .password-reset-page`,
+// and some rules go deeper (e.g. `.login-fullpage .login-body
+// .login-page-cta__buttons .login-page-cta__login`, 4 classes). Every rule
+// below is therefore scoped under `body.login-page .login-fullpage` and, where
+// core goes deeper, mirrors its ancestor chain so ours wins on specificity
+// rather than on load order.
+$nx-navy: oklch(0.22 0.09 277);
+$nx-navy-hover: oklch(0.28 0.1 277);
+$nx-ink: oklch(0.145 0 0);
+$nx-label: oklch(0.205 0 0);
+$nx-muted: oklch(0.556 0 0);
+$nx-field: oklch(0.965 0 0);
+$nx-ring: oklch(0.3 0.09 277);
+$nx-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif;
+
+// Jump-Up has no site header/footer on its login screen; drop Discourse's
+// and let the login page span the full viewport.
+body.login-page {
+  background: oklch(0.97 0.015 277);
+
+  .d-header-wrap,
+  .powered-by-discourse {
+    display: none;
+  }
+
+  #main-outlet-wrapper {
+    max-width: none;
+    padding: 0;
+  }
+
+  #main-outlet {
+    padding: 0 !important;
+  }
+}
+
+body.login-page .login-fullpage {
+  position: relative;
   min-height: 100vh;
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 24px;
-  background:
-    radial-gradient(1100px 550px at 0% 0%, #eef0ff 0%, rgba(238, 240, 255, 0) 60%),
-    radial-gradient(1100px 550px at 100% 100%, #eef0ff 0%, rgba(238, 240, 255, 0) 60%),
-    #ffffff;
+  overflow: hidden;
+  padding: 24px;
+  font-family: $nx-font;
+  -webkit-font-smoothing: antialiased;
 
-  .login-body {
-    width: 100%;
-    max-width: 1040px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(15, 10, 46, 0.14);
-    border: 1px solid #ececec;
-    overflow: hidden;
+  button,
+  input {
+    font-family: inherit;
   }
 
+  // Corner glows: size-72, -24 offset, /20, blur-3xl
+  &::before,
+  &::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    width: 288px;
+    height: 288px;
+    border-radius: 9999px;
+    background: oklch(0.7 0.1 277 / 0.2);
+    filter: blur(64px);
+  }
+
+  &::before {
+    left: -96px;
+    top: -96px;
+  }
+
+  &::after {
+    right: -96px;
+    bottom: -96px;
+  }
+
+  // Card: max-w-4xl, rounded-[2rem], shadow-2xl shadow-black/10, md:grid-cols-2
+  .login-body {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: 896px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 32px;
+    background: #fff;
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.1);
+  }
+
+  // Left: gap-8, p-12
   .login-left-side {
-    flex: 1 1 480px;
-    min-width: 320px;
-    max-width: none;
-    box-sizing: border-box;
-    padding: 56px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 20px;
-    color: #111827;
+    gap: 32px;
+    max-width: none;
+    min-width: 0;
+    padding: 48px;
+    overflow: visible;
+  }
 
-    a {
-      color: #4f39f6;
+  // Right: navy panel, p-10, gap-6
+  .login-right-side {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    max-width: none;
+    padding: 40px;
+    background: $nx-navy;
+
+    &::before {
+      display: none;
+    }
+
+    // The passkey button core renders here is shown in the left column
+    // instead (see the login-after-modal-footer connector); only the board
+    // preview from the after-login-buttons connector stays on this side.
+    #login-buttons {
+      display: contents;
+    }
+  }
+
+  #login-buttons .passkey-login-button {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .login-body {
+      grid-template-columns: 1fr;
+    }
+
+    .login-left-side {
+      padding: 32px;
+    }
+
+    .login-right-side {
+      display: none;
     }
   }
 }
 
-// .login-welcome-header is a 2-column CSS grid in core (for the title +
-// an optional second element like the waving-hand emoji). Everything we
-// add via the login-header-bottom outlet auto-places into row 1's second
-// column, so every row below is pinned explicitly: badge, logo+wordmark,
-// title, subtitle, in that visual order top to bottom.
-.login-welcome-header {
-  row-gap: 10px;
+// Header: badge, brand row, title, subtitle. .login-welcome-header is a
+// 2-column grid in core and the outlet content auto-places after the title,
+// so every row is pinned explicitly.
+body.login-page .login-fullpage .login-welcome-header {
+  row-gap: 0;
+  padding: 0;
 
   .login-brand-badge {
     grid-column: 1 / -1;
     grid-row: 1;
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    gap: 8px;
     width: fit-content;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: #f3f1ff;
-    color: #4f39f6;
-    font-size: 13px;
-    font-weight: 600;
+    height: 22px;
+    padding: 0 12px;
+    border-radius: 9999px;
+    background: $nx-field;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.05);
+    font-size: 11px;
+    font-weight: 500;
+    color: $nx-muted;
+
+    svg {
+      height: 12px;
+      width: auto;
+    }
   }
 
   .login-brand-row {
@@ -86,162 +191,479 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-top: 32px;
+  }
+
+  .login-brand-icon {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: oklch(0.94 0.03 277);
+    box-shadow: inset 0 0 0 1px oklch(0.22 0.09 277 / 0.08);
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
   }
 
   .login-brand-name {
     font-size: 20px;
+    line-height: 28px;
     font-weight: 700;
-    color: #0a0a0a;
+    color: $nx-navy;
   }
 
   .login-title {
     grid-column: 1 / -1;
     grid-row: 3;
-    font-size: 27px;
+    margin: 24px 0 0;
+    font-size: 28px;
+    line-height: 1.5;
     font-weight: 700;
-    margin: 0;
-    color: #0a0a0a;
+    letter-spacing: -0.025em;
+    color: $nx-ink;
   }
 
   .login-welcome-subtitle {
     grid-column: 1 / -1;
     grid-row: 4;
-    margin: 0;
-    font-size: 14px;
-    color: #57606f;
+    margin: 6px 0 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: $nx-muted;
   }
 }
 
-// Core renders the email/password labels as a floating placeholder
-// (absolutely positioned inside the input, moving up on focus/value) via
-// the compiled selector `.login-fullpage .input-group label.alt-placeholder`
-// (3 classes + 1 type) and, for the focused/filled state,
-// `.login-fullpage .input-group input:focus + label.alt-placeholder` (4
-// classes + 2 types) with `background-color: var(--secondary)`. An earlier
-// version of this override skipped the `.input-group` ancestor, so it lost
-// on specificity and that background (dark here) showed through as a box
-// behind the focused label. Match the full ancestor chain so ours (loaded
-// after core) wins the tie, to pin these as plain static labels above each
-// input instead, matching the confirmed mockup.
+// Form. Core renders the labels as floating placeholders via
+// `.login-fullpage .input-group label.alt-placeholder` and, when focused or
+// filled, `.login-fullpage .input-group input:focus + label.alt-placeholder`
+// with `background-color: var(--secondary)` (dark in the dark scheme — the
+// earlier "black box behind the label" bug). The #login-form #credentials
+// ID chain below outranks all of those, pinning them as static labels.
+body.login-page .login-fullpage #login-form {
+  margin: 0;
+  padding: 0;
+}
+
 #login-form #credentials {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 
   .input-group {
+    gap: 6px;
+    margin: 0;
+
     input {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: var(--d-border-radius);
-      color: #111827;
+      width: 100%;
+      min-width: 0;
+      height: 44px;
+      margin: 0;
+      padding: 4px 10px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: $nx-field;
+      color: $nx-ink;
+      font-size: 14px;
+      box-shadow: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+
+      &::placeholder {
+        color: oklch(0.6 0 0);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $nx-ring;
+        box-shadow: 0 0 0 3px oklch(0.3 0.09 277 / 0.3);
+      }
     }
 
-    label.alt-placeholder {
+    label.alt-placeholder,
+    input:focus + label.alt-placeholder,
+    input.value-entered + label.alt-placeholder {
       // The label follows the input in markup order; `.input-group` is a
       // column flexbox, so flip it to the top visually instead of
       // reordering the DOM.
       order: -1;
       position: static;
       display: block;
+      max-width: none;
+      padding: 0;
+      background: none;
       pointer-events: auto;
-      margin-bottom: 6px;
-      color: #374151;
+      color: $nx-label;
       font-size: 13px;
+      font-weight: 500;
+    }
+
+    // Email-me-a-login-code isn't part of the confirmed design.
+    #one-time-code-link {
+      display: none;
+    }
+
+    .login__password-links {
+      justify-content: flex-end;
+      margin: 0;
+
+      a {
+        font-size: 12px;
+        color: $nx-muted;
+
+        &:hover {
+          color: oklch(0.3 0 0);
+        }
+      }
+    }
+  }
+}
+
+// CTA. Jump-Up's submit sits 24px under the forgot-password link (form
+// gap-4 + mt-2); the left column's 32px gap is pulled back by 8px to match.
+body.login-page .login-fullpage .login-page-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: -8px;
+  padding: 0;
+
+  .login-page-cta__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  // Sign-up isn't offered (invite-only pilot).
+  .login-page-cta__no-account-yet,
+  .login-page-cta__signup {
+    display: none;
+  }
+
+  .login-page-cta__buttons .login-page-cta__login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    height: 46px;
+    margin: 0;
+    padding: 0 10px;
+    border: none;
+    border-radius: 9999px;
+    background: $nx-navy;
+    color: #fff;
+    font-size: 14px !important;
+    font-weight: 600;
+
+    .d-button-label {
+      color: #fff;
+    }
+
+    // lucide arrow-right, 16px
+    &::after {
+      content: "";
+      width: 16px;
+      height: 16px;
+      background: currentColor;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background: $nx-navy-hover;
+    }
+  }
+
+  .nexus-alt-login {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .nexus-or-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: $nx-muted;
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: oklch(0.922 0 0);
+    }
+  }
+
+  .nexus-passkey-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    height: 46px;
+    margin: 0;
+    padding: 0 10px;
+    border: none;
+    border-radius: 9999px;
+    background: $nx-field;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.05);
+    color: $nx-label;
+    font-size: 14px !important;
+    font-weight: 600;
+
+    .d-icon {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      color: $nx-label;
+    }
+
+    .d-button-label {
+      color: $nx-label;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background: oklch(0.94 0 0);
+    }
+  }
+}
+
+// Right panel: board preview (after-login-buttons connector). The
+// connector also renders wherever core shows LoginButtons (signup page,
+// mobile login), so it's hidden unless it's inside the login page's right
+// panel.
+.nexus-login-panel {
+  display: none;
+}
+
+body.login-page .login-fullpage .login-right-side .nexus-login-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  color: #fff;
+
+  .stage {
+    position: relative;
+    display: flex;
+    min-height: 380px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(64px);
+
+    &.a {
+      left: -40px;
+      top: 24px;
+      width: 224px;
+      height: 224px;
+      background: oklch(0.6 0.14 277 / 0.3);
+    }
+
+    &.b {
+      right: -24px;
+      bottom: 0;
+      width: 256px;
+      height: 256px;
+      background: oklch(0.5 0.16 277 / 0.3);
+    }
+  }
+
+  // Glass card: Jump-Up's border-white/25, bg-white/5, backdrop-blur-sm
+  .board {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 256px;
+    padding: 14px;
+    border-radius: 24px;
+    border: 1px solid rgb(255 255 255 / 0.25);
+    background: rgb(255 255 255 / 0.05);
+    backdrop-filter: blur(8px);
+  }
+
+  .board-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 2px 12px;
+
+    .t {
+      font-size: 12px;
       font-weight: 600;
     }
 
-    input:focus + label.alt-placeholder,
-    input.value-entered + label.alt-placeholder {
-      position: static;
-      top: auto;
-      left: auto;
-      background: none;
-      padding: 0;
-      font-size: 13px;
+    .new {
+      margin-left: auto;
+      padding: 1px 8px;
+      border-radius: 9999px;
+      background: rgb(255 255 255 / 0.15);
+      font-size: 10px;
+      color: rgb(255 255 255 / 0.8);
     }
   }
-}
 
-.login-page-cta {
-  margin-top: 4px;
-
-  &__login {
-    width: 100%;
-    border-radius: var(--d-border-radius);
-    padding: 13px 16px;
-    font-weight: 600;
-    background: #4f39f6;
-  }
-
-  &__no-account-yet {
-    color: #6b7280;
-  }
-
-  &__signup {
-    color: #4f39f6;
-    font-weight: 600;
-  }
-}
-
-.login-fullpage {
-  .login-right-side {
-    flex: 1 1 380px;
-    min-width: 300px;
-    box-sizing: border-box;
-    position: relative;
-    background: linear-gradient(145deg, #1a1540 0%, #2d1f66 45%, #150f33 100%);
+  .board-icon {
     display: flex;
+    width: 24px;
+    height: 24px;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    border-radius: 7px;
+    background: #fff;
 
-    &::before {
-      content: "";
-      position: absolute;
-      top: -80px;
-      right: -80px;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(197, 182, 255, 0.35) 0%, rgba(197, 182, 255, 0) 70%);
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .topic {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgb(255 255 255 / 0.1);
+
+    + .topic {
+      margin-top: 8px;
     }
 
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -100px;
-      left: -60px;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(124, 58, 237, 0.35) 0%, rgba(124, 58, 237, 0) 70%);
+    .title {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    #login-buttons {
-      position: relative;
-      z-index: 1;
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      color: rgb(255 255 255 / 0.6);
+    }
 
-      .passkey-login-button {
-        background: #ffffff;
-        color: #111827;
-        border: none;
-        border-radius: var(--d-border-radius);
-        padding: 13px 22px;
-        font-weight: 600;
+    .replies {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-left: auto;
+
+      svg {
+        width: 11px;
+        height: 11px;
       }
     }
   }
 
-  // Below this width the two sides (480px + 380px flex-basis) no longer fit
-  // on one row and would otherwise wrap into a broken half-row state — fall
-  // back to the same single-column layout used on mobile.
-  @media (max-width: 960px) {
-    .login-right-side {
-      display: none;
+  .cat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: rgb(255 255 255 / 0.7);
+
+    i {
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
+    }
+  }
+
+  .avatars {
+    display: flex;
+
+    span {
+      width: 16px;
+      height: 16px;
+      border-radius: 9999px;
+      border: 1.5px solid oklch(0.3 0.09 277);
+
+      + span {
+        margin-left: -5px;
+      }
+    }
+  }
+
+  // Floating chips: rounded-xl border-white/20 bg-white/10 shadow-lg backdrop-blur-sm
+  .chip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    border: 1px solid rgb(255 255 255 / 0.2);
+    background: rgb(255 255 255 / 0.1);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    backdrop-filter: blur(8px);
+    font-size: 12px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
     }
 
-    .login-left-side {
-      flex: 1 1 auto;
+    &.solved {
+      right: -6px;
+      top: 36px;
+      gap: 6px;
+      padding: 8px 12px;
+      font-weight: 500;
+
+      svg {
+        color: oklch(0.845 0.143 164.978);
+      }
     }
+
+    &.reply {
+      left: -8px;
+      bottom: 28px;
+      gap: 8px;
+      padding: 8px 12px;
+
+      .ava {
+        width: 22px;
+        height: 22px;
+        flex: none;
+        border-radius: 9999px;
+        background: oklch(0.78 0.12 230);
+      }
+
+      .k {
+        display: block;
+        font-size: 10px;
+        color: rgb(255 255 255 / 0.7);
+      }
+
+      .v {
+        display: block;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .tagline {
+    margin: 0 auto;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 12.5px;
+    line-height: 1.625;
+    color: rgb(255 255 255 / 0.6);
   }
 }
