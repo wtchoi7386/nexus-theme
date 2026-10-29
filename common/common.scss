@@ -935,6 +935,7 @@ body.navigation-categories {
 .navigation-container,
 #topic-footer-buttons,
 .topic-footer-main-buttons,
+.timeline-footer-controls,
 .post-controls {
   .btn,
   .select-kit .select-kit-header {
@@ -955,6 +956,11 @@ body.navigation-categories {
   .btn .d-icon {
     font-size: 14px;
   }
+}
+
+// Core sets its own size on the "N개의 답글" toggle.
+.post-controls .btn.show-replies {
+  font-size: 14px;
 }
 
 // Combo "+ 새 글" button keeps its joined inner corners.
