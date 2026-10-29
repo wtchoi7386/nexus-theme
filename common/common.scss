@@ -754,7 +754,19 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
     line-height: 1;
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: var(--tertiary);
+    // Crystal gradient (purple → pink), distinct from the indigo page titles.
+    // light-dark() follows the color-scheme each Discourse scheme declares;
+    // dark stops are brighter/more saturated so the shift still reads on black.
+    // The first background is a fallback for browsers without light-dark().
+    background: linear-gradient(90deg, #7b1fa2, #d500f9);
+    background: linear-gradient(
+      90deg,
+      light-dark(#7b1fa2, #a24bd6),
+      light-dark(#d500f9, #ff5ce1)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 }
 
