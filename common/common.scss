@@ -682,13 +682,21 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
 // Nexus/design/board-mockup.html). Colors come from the active Discourse
 // color scheme (jump-up light / jump-up Dim), so these rules work in both.
 
+// Borders: Discourse derives --primary-low/--content-border-color from the
+// scheme, which nearly vanishes on the dim background. Use Jump-Up's border
+// token instead (foreground at ~12%), which reads in light and dim alike.
+:root {
+  --nexus-border: color-mix(in srgb, var(--primary) 12%, transparent);
+  --content-border-color: var(--nexus-border);
+}
+
 // 2. Header: Jump-Up's h-16 header on the page background with a bottom
 // border, logo tile + wordmark (home-logo-contents connector).
 .d-header {
   height: 64px;
   background-color: var(--secondary);
   box-shadow: none;
-  border-bottom: 1px solid var(--primary-low);
+  border-bottom: 1px solid var(--nexus-border);
 }
 
 .d-header .title a {
@@ -770,7 +778,7 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
 .nexus-chip,
 .nexus-chip:visited {
   padding: 6px 12px;
-  border: 1px solid var(--primary-low);
+  border: 1px solid var(--nexus-border);
   border-radius: 9999px;
   font-size: 12px;
   font-weight: 500;
