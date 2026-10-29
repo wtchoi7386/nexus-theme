@@ -864,7 +864,8 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
 // of the sidebar, so the list reads as a focused column instead of spanning
 // the full width (Jump-Up centers its pages at max-w-5xl).
 body.navigation-topics,
-body.navigation-category {
+body.navigation-category,
+body.navigation-categories {
   #main-outlet {
     width: 100%;
     max-width: 920px;
@@ -874,11 +875,39 @@ body.navigation-category {
 
 // Topic titles in lists: 15px / 500 per the board mockup (core default is
 // ~18px regular).
-.topic-list {
+.topic-list,
+.latest-topic-list {
   --topic-title-font-weight: 500;
   --topic-title-font-weight--visited: 500;
 
   .main-link a.title {
     font-size: 15px;
+  }
+}
+
+// "모든 카테고리" page: bring core's larger type (category names ~21px,
+// counts/titles ~18px) in line with the topic list scale above.
+.category-list {
+  .category-name,
+  .category-name .badge-category__name {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .category-description {
+    font-size: 13px;
+    color: var(--primary-medium);
+  }
+
+  td.topics .value {
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+.latest-topic-list-item {
+  .topic-stats,
+  .topic-last-activity {
+    font-size: 13px;
   }
 }
