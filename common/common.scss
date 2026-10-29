@@ -768,15 +768,23 @@ body.login-page .login-fullpage .login-right-side .nexus-login-panel {
   }
 }
 
-// 4. Category chips: rounded-full border px-3 py-1.5 text-xs medium.
+// 4. Category chips: rounded-full border px-3 py-1.5 text-xs medium. One
+// row that scrolls sideways, so more categories never push the list down.
 .nexus-board-chips {
   display: flex;
-  flex-wrap: wrap;
   gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .nexus-chip,
 .nexus-chip:visited {
+  flex: none;
+  white-space: nowrap;
   padding: 6px 12px;
   border: 1px solid var(--nexus-border);
   border-radius: 9999px;
