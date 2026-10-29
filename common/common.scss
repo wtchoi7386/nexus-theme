@@ -980,3 +980,51 @@ nav.post-controls .btn.show-replies {
   font-size: 15px;
   font-weight: 500;
 }
+
+// Outline buttons, following the 태그 dropdown: transparent fill with a 1px
+// border. Primary actions ("+ 새 글", "답글 달기") stay distinguishable with
+// the brand color on both border and label. Flat icon buttons (post actions)
+// keep core's borderless look.
+.navigation-container,
+#topic-footer-buttons,
+.topic-footer-main-buttons,
+.timeline-footer-controls {
+  --nexus-outline: color-mix(in srgb, var(--primary) 38%, transparent);
+
+  .btn:not(.btn-flat),
+  .select-kit .select-kit-header {
+    background: transparent;
+    border: 1px solid var(--nexus-outline);
+    color: var(--primary);
+
+    .d-icon {
+      color: inherit;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background: color-mix(in srgb, var(--primary) 6%, transparent);
+    }
+  }
+
+  .btn.btn-primary {
+    border-color: var(--tertiary);
+    color: var(--tertiary);
+
+    .d-button-label,
+    .d-icon {
+      color: inherit;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background: color-mix(in srgb, var(--tertiary) 12%, transparent);
+      color: var(--tertiary);
+    }
+  }
+}
+
+// Joined combo button: one shared divider instead of two touching borders.
+.navigation-container .d-combo-button .btn:last-child {
+  margin-left: -1px;
+}
