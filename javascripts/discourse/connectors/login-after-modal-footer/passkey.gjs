@@ -18,7 +18,6 @@ export default class Passkey extends Component {
         <DButton
           class="btn-social nexus-passkey-button"
           @action={{this.login.passkeyLogin}}
-          @icon="key"
           @label="login.passkey.name"
         />
       </div>
