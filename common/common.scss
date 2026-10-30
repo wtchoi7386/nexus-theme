@@ -161,6 +161,23 @@ body.login-page .login-fullpage {
   }
 }
 
+// Mobile view renders the login parts straight inside .login-body (no
+// left/right side wrappers), so the card gets the left column's padding and
+// gap itself. #login-buttons only holds the hidden passkey button and the
+// desktop-only board preview.
+html.mobile-view body.login-page .login-fullpage {
+  .login-body {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 32px 24px;
+  }
+
+  #login-buttons {
+    display: none;
+  }
+}
+
 // Header: badge, brand row, title, subtitle. .login-welcome-header is a
 // 2-column grid in core and the outlet content auto-places after the title,
 // so every row is pinned explicitly.
