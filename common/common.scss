@@ -968,7 +968,9 @@ body.navigation-categories {
     border-radius: 8px;
   }
 
-  .btn.no-text {
+  // The mobile list-type toggle ("최신 ⌃⌄") is marked no-text but shows a
+  // label, so it keeps its natural width.
+  .btn.no-text:not(.list-control-toggle-link-trigger) {
     width: 32px;
     padding: 0;
     justify-content: center;
